@@ -1,21 +1,15 @@
 package ir.ac.kntu;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import ir.ac.kntu.model.loginpage.LoginMenu;
+import ir.ac.kntu.model.settingpage.SettingMenu;
+import ir.ac.kntu.model.gamepage.GamePage;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
- * @author Sina Rostami
+ * @author Hossein Yasbolaghi
  */
 public class Main extends Application {
-    private Canvas canvas = new Canvas(800, 700);
-    private GraphicsContext gc = canvas.getGraphicsContext2D();
 
     public static void main(String[] args) {
         launch(args);
@@ -23,22 +17,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BorderPane borderPane = new BorderPane(canvas);
-        Scene scene = new Scene(borderPane);
+        LoginMenu loginMenu = new LoginMenu();
+        loginMenu.start(primaryStage);
 
-        Timeline timelineAnimation = new Timeline(
-                new KeyFrame(Duration.millis(200), event -> start())
-        );
-        timelineAnimation.setCycleCount(Timeline.INDEFINITE);
+        SettingMenu settingMenu = new SettingMenu();
+        settingMenu.start(primaryStage);
 
-        primaryStage.setTitle("Dr.Mario");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        timelineAnimation.play();
-    }
-
-    public void start() {
-
+        GamePage gamePage = new GamePage(loginMenu.getUser(), settingMenu.getSetting());
+        gamePage.start(primaryStage);
     }
 }
