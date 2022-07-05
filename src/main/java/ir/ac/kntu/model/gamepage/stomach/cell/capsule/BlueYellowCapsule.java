@@ -1,8 +1,10 @@
 package ir.ac.kntu.model.gamepage.stomach.cell.capsule;
 
-import ir.ac.kntu.constant.Direction;
 import ir.ac.kntu.model.gamepage.stomach.Stomach;
 import ir.ac.kntu.model.gamepage.stomach.cell.PairCell;
+import ir.ac.kntu.model.gamepage.stomach.cell.pill.BluePill;
+import ir.ac.kntu.model.gamepage.stomach.cell.pill.RedPill;
+import ir.ac.kntu.model.gamepage.stomach.cell.pill.YellowPill;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -62,101 +64,32 @@ public class BlueYellowCapsule extends PairCell {
     }
 
     @Override
-    public void move() {
-        if (super.getStatus() == Status.HORIZONTAL_ONE || super.getStatus() == Status.HORIZONTAL_TWO) {
-            if (super.getRowIndex() >= super.getStomach().getCells().length - 1) {
-                return;
-            }
-            if (super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] != null ||
-                    super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex() + 1] != null) {
-                return;
-            }
+    public void destruct(int i, int j) {
+        super.getStomach().removeObject(this);
+        super.getStomach().getCells()[i][j] = null;
 
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = null;
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 1] = null;
-            super.setRowIndex(super.getRowIndex() + 1);
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = this;
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 1] = this;
-        } else {
-            if ((super.getRowIndex() + 1) >= super.getStomach().getCells().length - 1) {
-                return;
+        switch (super.getStatus()) {
+            case HORIZONTAL_ONE, HORIZONTAL_TWO -> {
+                if (i == super.getRowIndex() && j == super.getColumnIndex()) {
+                    super.getStomach().getCells()[i][j + 1] = null;
+                    super.getStomach().addObject(new YellowPill(super.getStomach(), i, j + 1));
+                } else {
+                    super.getStomach().getCells()[i][j - 1] = null;
+                    super.getStomach().addObject(new BluePill(super.getStomach(), i, j - 1));
+                }
             }
-            if (super.getStomach().getCells()[super.getRowIndex() + 2][super.getColumnIndex()] != null) {
-                return;
+            case VERTICAL_ONE, VERTICAL_TWO -> {
+                if (i == super.getRowIndex() && j == super.getColumnIndex()) {
+                    super.getStomach().getCells()[i + 1][j] = null;
+                    super.getStomach().addObject(new BluePill(super.getStomach(), i + 1, j));
+                } else {
+                    super.getStomach().getCells()[i - 1][j] = null;
+                    super.getStomach().addObject(new YellowPill(super.getStomach(), i - 1, j));
+                }
             }
-
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = null;
-            super.setRowIndex(super.getRowIndex() + 1);
-            super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] = this;
-        }
-    }
-
-    @Override
-    public void move(Direction direction) {
-        switch (direction) {
-            case LEFT -> moveLeft();
-            case RIGHT -> moveRight();
-            case DOWN -> move();
             default -> {
             }
         }
     }
 
-    private void moveLeft() {
-        if (super.getStatus() == Status.HORIZONTAL_ONE || super.getStatus() == Status.HORIZONTAL_TWO) {
-            if (super.getColumnIndex() <= 0) {
-                return;
-            }
-            if (super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() - 1] != null) {
-                return;
-            }
-
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 1] = null;
-            super.setColumnIndex(super.getColumnIndex() - 1);
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = this;
-        } else {
-            if (super.getColumnIndex() <= 0) {
-                return;
-            }
-            if (super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() - 1] != null ||
-                    super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex() - 1] != null) {
-                return;
-            }
-
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = null;
-            super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] = null;
-            super.setColumnIndex(super.getColumnIndex() - 1);
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = this;
-            super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] = this;
-        }
-    }
-
-    private void moveRight() {
-        if (super.getStatus() == Status.HORIZONTAL_ONE || super.getStatus() == Status.HORIZONTAL_TWO) {
-            if (super.getColumnIndex() >= super.getStomach().getCells()[0].length - 2) {
-                return;
-            }
-            if (super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 2] != null) {
-                return;
-            }
-
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = null;
-            super.setColumnIndex(super.getColumnIndex() + 1);
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 1] = this;
-        } else {
-            if (super.getColumnIndex() >= super.getStomach().getCells()[0].length - 1) {
-                return;
-            }
-            if (super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex() + 1] != null ||
-                    super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex() + 1] != null) {
-                return;
-            }
-
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = null;
-            super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] = null;
-            super.setColumnIndex(super.getColumnIndex() + 1);
-            super.getStomach().getCells()[super.getRowIndex()][super.getColumnIndex()] = this;
-            super.getStomach().getCells()[super.getRowIndex() + 1][super.getColumnIndex()] = this;
-        }
-    }
 }

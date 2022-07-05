@@ -28,6 +28,10 @@ public class Stomach implements Drawable, Movable {
         objects.add(cell);
     }
 
+    public void removeObject(Cell cell) {
+        objects.remove(cell);
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         for (Cell cell : objects) {

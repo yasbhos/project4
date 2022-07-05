@@ -28,7 +28,7 @@ public class Cell implements Drawable, Movable, Destructible {
     }
 
     @Override
-    public void destruct() {
+    public void destruct(int i, int j) {
 
     }
 }

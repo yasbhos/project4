@@ -40,9 +40,4 @@ public class RedVirus extends SingleCell {
                 STOMACH_START_Y + (super.getRowIndex() * CELL_DIMENSIONS),
                 CELL_DIMENSIONS, CELL_DIMENSIONS);
     }
-
-    @Override
-    public void destruct() {
-
-    }
 }

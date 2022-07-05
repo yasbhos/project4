@@ -37,4 +37,8 @@ public class LeftBoard implements Drawable {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public int getScore() {
+        return score;
+    }
 }

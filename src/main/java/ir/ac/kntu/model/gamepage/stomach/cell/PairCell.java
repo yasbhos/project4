@@ -3,7 +3,6 @@ package ir.ac.kntu.model.gamepage.stomach.cell;
 import ir.ac.kntu.model.Movable;
 import ir.ac.kntu.constant.Direction;
 import ir.ac.kntu.model.gamepage.stomach.Stomach;
-import ir.ac.kntu.model.gamepage.stomach.cell.capsule.BlueYellowCapsule;
 import javafx.scene.canvas.GraphicsContext;
 
 public class PairCell extends Cell implements Movable {
@@ -108,10 +107,99 @@ public class PairCell extends Cell implements Movable {
 
     @Override
     public void move() {
+        if (status == Status.HORIZONTAL_ONE || status == Status.HORIZONTAL_TWO) {
+            if (rowIndex >= super.getStomach().getCells().length - 1) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex + 1][columnIndex] != null ||
+                    super.getStomach().getCells()[rowIndex + 1][columnIndex + 1] != null) {
+                return;
+            }
 
+            super.getStomach().getCells()[rowIndex][columnIndex] = null;
+            super.getStomach().getCells()[rowIndex][columnIndex + 1] = null;
+            rowIndex++;
+            super.getStomach().getCells()[rowIndex][columnIndex] = this;
+            super.getStomach().getCells()[rowIndex][columnIndex + 1] = this;
+        } else {
+            if ((rowIndex + 1) >= super.getStomach().getCells().length - 1) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex + 2][columnIndex] != null) {
+                return;
+            }
+
+            super.getStomach().getCells()[rowIndex][columnIndex] = null;
+            rowIndex++;
+            super.getStomach().getCells()[rowIndex + 1][columnIndex] = this;
+        }
     }
 
     public void move(Direction direction) {
+        switch (direction) {
+            case LEFT -> moveLeft();
+            case RIGHT -> moveRight();
+            case DOWN -> move();
+            default -> {
+            }
+        }
+    }
 
+    private void moveLeft() {
+        if (status == Status.HORIZONTAL_ONE || status == Status.HORIZONTAL_TWO) {
+            if (columnIndex <= 0) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex][columnIndex - 1] != null) {
+                return;
+            }
+
+            super.getStomach().getCells()[rowIndex][columnIndex + 1] = null;
+            columnIndex--;
+            super.getStomach().getCells()[rowIndex][columnIndex] = this;
+        } else {
+            if (columnIndex <= 0) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex][columnIndex - 1] != null ||
+                    super.getStomach().getCells()[rowIndex + 1][columnIndex - 1] != null) {
+                return;
+            }
+
+            super.getStomach().getCells()[rowIndex][columnIndex] = null;
+            super.getStomach().getCells()[rowIndex + 1][columnIndex] = null;
+            columnIndex--;
+            super.getStomach().getCells()[rowIndex][columnIndex] = this;
+            super.getStomach().getCells()[rowIndex + 1][columnIndex] = this;
+        }
+    }
+
+    private void moveRight() {
+        if (status == Status.HORIZONTAL_ONE || status == Status.HORIZONTAL_TWO) {
+            if (columnIndex >= super.getStomach().getCells()[0].length - 2) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex][columnIndex + 2] != null) {
+                return;
+            }
+
+            super.getStomach().getCells()[rowIndex][columnIndex] = null;
+            columnIndex++;
+            super.getStomach().getCells()[rowIndex][columnIndex + 1] = this;
+        } else {
+            if (columnIndex >= super.getStomach().getCells()[0].length - 1) {
+                return;
+            }
+            if (super.getStomach().getCells()[rowIndex][columnIndex + 1] != null ||
+                    super.getStomach().getCells()[rowIndex + 1][columnIndex + 1] != null) {
+                return;
+            }
+
+            super.getStomach().getCells()[rowIndex][columnIndex] = null;
+            super.getStomach().getCells()[rowIndex + 1][columnIndex] = null;
+            columnIndex++;
+            super.getStomach().getCells()[rowIndex][columnIndex] = this;
+            super.getStomach().getCells()[rowIndex + 1][columnIndex] = this;
+        }
     }
 }
