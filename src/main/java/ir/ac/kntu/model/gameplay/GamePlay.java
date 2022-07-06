@@ -75,7 +75,7 @@ public class GamePlay extends Application {
     private GameState gameState;
 
     public GamePlay(User user, Setting setting) {
-        this.player = player;
+        this.player = user;
         this.setting = setting;
         this.canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         this.gc = canvas.getGraphicsContext2D();
@@ -83,7 +83,7 @@ public class GamePlay extends Application {
         initializeStomachViruses();
         this.drMario = new DrMario(600, 220, DrMario.Status.DOC_WAITING3);
         this.rightBoard = new RightBoard(610, 450, 1, GameSpeed.LOW, 4);
-        this.leftBoard = new LeftBoard(60, 150, 10200, 0);
+        this.leftBoard = new LeftBoard(60, 150, user.getHighScore(), 0);
         this.blueVirus = new BlueVirus(160, 480, BlueVirus.Status.SHAKING);
         this.redVirus = new RedVirus(60, 500, RedVirus.Status.SHAKING);
         this.yellowVirus = new YellowVirus(100, 410, YellowVirus.Status.SHAKING);

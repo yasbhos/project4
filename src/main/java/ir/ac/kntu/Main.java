@@ -9,6 +9,7 @@ import ir.ac.kntu.model.User;
 import ir.ac.kntu.model.gameplay.GamePlay;
 import ir.ac.kntu.model.titlescreen.TitleScreen;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -52,11 +53,16 @@ public class Main extends Application {
                 titleScreen.start(primaryStage);
             }
         });
-        titleScreen.getScene().addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            KeyCode code = keyEvent.getCode();
-            if (code == KeyCode.ENTER) {
-                GamePlay gamePlay = new GamePlay(user, new Setting(1, GameSpeed.LOW, MusicType.CHILL));
-                gamePlay.start(primaryStage);
+        final GamePlay[] gamePlay = new GamePlay[1];
+
+        titleScreen.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                KeyCode code = event.getCode();
+                if (code == KeyCode.ENTER) {
+                    gamePlay[0] = new GamePlay(user, new Setting(1, GameSpeed.LOW, MusicType.CHILL));
+                    gamePlay[0].start(primaryStage);
+                }
             }
         });
     }
