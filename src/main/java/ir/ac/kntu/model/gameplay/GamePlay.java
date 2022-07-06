@@ -4,7 +4,6 @@ import ir.ac.kntu.constant.Color;
 import ir.ac.kntu.constant.Direction;
 import ir.ac.kntu.constant.GameSpeed;
 import ir.ac.kntu.constant.GameState;
-import ir.ac.kntu.model.SelfMedication;
 import ir.ac.kntu.model.gameplay.leftobjects.*;
 import ir.ac.kntu.model.gameplay.rightobjects.*;
 import ir.ac.kntu.model.gameplay.stomach.Stomach;
@@ -84,7 +83,7 @@ public class GamePlay extends Application {
         initializeStomachViruses();
         this.drMario = new DrMario(600, 220, DrMario.Status.DOC_WAITING3);
         this.rightBoard = new RightBoard(610, 450, 1, GameSpeed.LOW, 4);
-        this.leftBoard = new LeftBoard(60, 150, player.getHighScore(), 0);
+        this.leftBoard = new LeftBoard(60, 150, 10200, 0);
         this.blueVirus = new BlueVirus(160, 480, BlueVirus.Status.SHAKING);
         this.redVirus = new RedVirus(60, 500, RedVirus.Status.SHAKING);
         this.yellowVirus = new YellowVirus(100, 410, YellowVirus.Status.SHAKING);
