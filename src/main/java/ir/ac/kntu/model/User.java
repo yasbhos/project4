@@ -2,6 +2,7 @@ package ir.ac.kntu.model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User implements Serializable {
     private String username;
@@ -44,5 +45,21 @@ public class User implements Serializable {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User user)) {
+            return false;
+        }
+        return Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
     }
 }

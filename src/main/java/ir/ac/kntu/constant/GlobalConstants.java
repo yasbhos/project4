@@ -14,4 +14,6 @@ public class GlobalConstants {
     public static final int STOMACH_START_X = 300;
 
     public static final int STOMACH_START_Y = 225;
+
+    public static final int SELF_MEDICATION_POSSIBILITY = 100;
 }

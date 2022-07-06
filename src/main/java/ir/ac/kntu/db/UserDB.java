@@ -4,17 +4,31 @@ import ir.ac.kntu.model.User;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class UserDB {
     private ArrayList<User> users;
 
     public UserDB() {
         loadUsersInfo();
+        users.sort(Comparator.comparing(User::getHighScore));
     }
 
     public void addUser(User user) {
         users.add(user);
         saveUsersInfo();
+    }
+
+    public int getSize() {
+        return users.size();
+    }
+
+    public User getUserByIndex(int index) {
+        return users.get(index);
+    }
+
+    public User getUserByUsername(String username) {
+        return users.stream().filter(user -> user.getUsername().equals(username)).findFirst().orElse(null);
     }
 
     public User getUserByUsernameAndPassword(String username, String password) {
