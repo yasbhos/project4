@@ -37,9 +37,8 @@ public class Main extends Application {
         TitleScreen titleScreen = new TitleScreen();
         BorderPane loginPage = new BorderPane();
         loginGUI.addNodesToPane(loginPage);
-        Image drMarioBox = new Image("images/DrMarioBox.jpg");
         loginPage.setBackground(new Background(new BackgroundImage(
-                drMarioBox, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new Image("images/DrMarioBox.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(450, 600, true, true, false, true)
         )));
         Scene scene = new Scene(loginPage, 450, 600);
@@ -54,15 +53,10 @@ public class Main extends Application {
             }
         });
         final GamePlay[] gamePlay = new GamePlay[1];
-
-        titleScreen.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                KeyCode code = event.getCode();
-                if (code == KeyCode.ENTER) {
-                    gamePlay[0] = new GamePlay(user, new Setting(1, GameSpeed.LOW, MusicType.CHILL));
-                    gamePlay[0].start(primaryStage);
-                }
+        titleScreen.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                gamePlay[0] = new GamePlay(user, new Setting(1, GameSpeed.LOW, MusicType.CHILL));
+                gamePlay[0].start(primaryStage);
             }
         });
     }
